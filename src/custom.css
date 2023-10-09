@@ -1,5 +1,9 @@
 body {
-    padding-top: 120px
+    padding-top: 120px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
+    text-align: -webkit-match-parent;
 }
 
 pre {
@@ -16,8 +20,7 @@ pre {
     }
 }
 
-#home,
-#help {
+#home, #help {
     font-size: 0.9rem
 }
 
