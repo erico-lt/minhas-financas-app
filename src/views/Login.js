@@ -15,9 +15,9 @@ class Login extends React.Component {
         console.log('Senha', this.state.senha)
     }
 
-    render() {       
-
-        return (            
+    render() {           
+        return (     
+                  
             <div className="container container-fluid">
                 <div className="row">
                     <div className="col-md-6 position-absolute top-40 start-50 translate-middle-x">
