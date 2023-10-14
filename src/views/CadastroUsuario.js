@@ -13,8 +13,7 @@ class CadastroUsuario extends React.Component {
     }
 
     salvar = () => {
-        console.log(this.state)
-        
+        console.log(this.state)        
     }
 
     render() {

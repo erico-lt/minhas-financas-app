@@ -1,14 +1,25 @@
 import React from "react";
 
-import { Route, Routes } from "react-router-dom";
-import Login from "../views/Login";
+
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { NavBar } from "../coponents/NavBar";
 import CadastroUsuario from "../views/CadastroUsuario";
+import { Home } from "../views/Home";
+import Login from "../views/Login";
 
 export function Rotas() {
-    return(        
-        <Routes>                      
-            <Route path="/" element={<Login/>}/>
-            <Route path="/cadastro" element={<CadastroUsuario/>}/>
-        </Routes>
+    return (
+        <>
+            <BrowserRouter>
+                <NavBar />
+                <Routes>
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/cadastro-usuarios" element={<CadastroUsuario />} />
+                    <Route path="*" element={<Navigate to="/home"/>}></Route>
+                </Routes>
+            </BrowserRouter>
+           
+        </>
     )
 }
