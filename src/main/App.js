@@ -1,7 +1,7 @@
 import React from "react";
 import { Rotas } from "./Rotas";
 
-import 'bootswatch/dist/morph/bootstrap.css';
+import 'bootswatch/dist/zephyr/bootstrap.css';
 import '../custom.css';
 
 function App() {

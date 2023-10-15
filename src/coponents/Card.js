@@ -5,7 +5,7 @@ class Card extends React.Component {
     render() {
         return (
             <div className="card mb-3">
-                <h3 className="card-header"  style={{position: 'relative', textAlign: 'center'}}>{this.props.title}</h3>
+                <h1 className="card-header"  style={{position: 'relative', textAlign: 'center'}}>{this.props.title}</h1>
                 <div className="card-body">
                     {this.props.children}
                 </div>

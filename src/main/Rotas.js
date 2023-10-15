@@ -16,7 +16,7 @@ export function Rotas() {
                     <Route path="/home" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/cadastro-usuarios" element={<CadastroUsuario />} />
-                    <Route path="*" element={<Navigate to="/home"/>}></Route>
+                    <Route path="*" element={<Navigate to="/login"/>}></Route>
                 </Routes>
             </BrowserRouter>
            
