@@ -3,21 +3,21 @@ import React, { useState } from "react";
 import Card from "../coponents/Card";
 import FormGroup from "../coponents/FormGroup";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import UsuarioService from "../main/app/service/UsuarioService";
 
-function Login(props) {
+function Login() {  
 
     const navigate = useNavigate();
-
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [erroMessage, setMessage] = useState(null);
     const [alert, setStatus] = useState('');
+    const service = new UsuarioService();
 
-    const entrar = async ()=> {
-        axios.get('http://localhost:8080/api/usuarios/autenticar', {
-            senha: senha,
-            email: email
+    const entrar = async ()=> {         
+        service.autenticar({
+            email:email,
+            senha:senha
         }).then(response => {
             localStorage.setItem('usuario', JSON.stringify(response.data));
             navigate('/home');            

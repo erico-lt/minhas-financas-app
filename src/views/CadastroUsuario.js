@@ -13,9 +13,7 @@ function CadastroUsuario() {
     const [senha, setSenha] = useState('');
     const [senhaConfirmacao, setSenhaConfirmacao] = useState('');
     const [autenticar, setAutenticar] = useState(null);
-    const [alert, setAlert] = useState('');   
-    // const controller = new AbortController();
-    // const signal = controller.signal; 
+    const [alert, setAlert] = useState('');       
 
     const mudarPagina = () => {
         navigate('/login')
@@ -25,9 +23,8 @@ function CadastroUsuario() {
         if (senha !== senhaConfirmacao) {
             setAlert("alert alert-dismissible alert-danger");
             setAutenticar("A Senha não corresponde")   
-            //signal.aborted();
-        }
-
+        }            
+        
         axios.post('http://localhost:8080/api/usuarios', {
             nome: nome,
             email: email,
