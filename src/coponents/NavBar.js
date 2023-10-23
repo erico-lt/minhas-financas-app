@@ -20,7 +20,7 @@ export function NavBar() {
 
                         <NavBarItem to="/cadastro-usuarios" className="nav-link" label="Usuarios"/>                                   
 
-                        <NavBarItem to="/lancamentos" className="nav-link" label="Lancamentos"/>                       
+                        <NavBarItem to="/cadastrar-lancamentos" className="nav-link" label="Lancamentos"/>                       
 
                         <NavBarItem to="/login" className="nav-link" label="Login"/>                                                                      
                     </ul>

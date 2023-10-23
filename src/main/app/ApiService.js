@@ -1,22 +1,17 @@
 import axios from "axios";
 
 const httpClient = axios.create({
-    baseURL:'http://localhost:8080',    
-    headers: {'Content-Type': 'application/json',
-            'Accept': 'application/json'}
+    baseURL: 'http://localhost:8080',
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
 });
 
-class ApiService{
-    
+export default class ApiService {
     constructor(apiUrl){
         this.apiUrl = apiUrl;
     } 
-
-    // get(url, corpo) {
-        
-    //     const request = `${this.apiUrl}${url}`;        
-    //     return httpClient.get(request, corpo);
-    // }
 
     post(url, corpo){
         const request = `${this.apiUrl}${url}`;
@@ -34,10 +29,7 @@ class ApiService{
     }
 
     get(url){
-        const request = `${this.apiUrl}/${url}/saldo`;
+        const request = `${this.apiUrl}${url}`;
         return httpClient.get(request);
-    }    
-    
+    }   
 }
-
-export default ApiService;

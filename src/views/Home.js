@@ -3,15 +3,16 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import Card from "../coponents/Card";
 import UsuarioService from "../main/app/service/UsuarioService";
+import localStorageService from "../main/app/service/LocalStorageService";
 
 export function Home() {    
     const [saldo, setSaldo] = useState(0);
     const service = new UsuarioService();
 
     useEffect(() =>{
-        const usuarioString = localStorage.getItem('usuario');
+        const usuarioString = localStorageService.buscarItem('usuario')
         const usuario = JSON.parse(usuarioString);        
-        service.saldo(`${usuario.id}`
+        service.saldo(usuario.id
         ).then(response => {
             setSaldo(response.data);
         }).catch(erro => {
@@ -28,7 +29,7 @@ export function Home() {
                 <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>
 
                 <p className="lead">
-                    <a className="btn btn-primary btn-lg" href="/login" role="button">
+                    <a className="btn btn-primary btn-lg" href="/cadastro-usuarios" role="button">
                         <i className="bi bi-person-up"></i>
                         <span className="ms-1">Cadastrar Usuário</span>
                     </a>

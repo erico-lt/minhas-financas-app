@@ -6,6 +6,7 @@ import { NavBar } from "../coponents/NavBar";
 import CadastroUsuario from "../views/CadastroUsuario";
 import { Home } from "../views/Home";
 import Login from "../views/Login";
+import Lancamentos from "../views/Lancamentos";
 
 export function Rotas() {
     return (
@@ -16,6 +17,7 @@ export function Rotas() {
                     <Route path="/home" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/cadastro-usuarios" element={<CadastroUsuario />} />
+                    <Route path="/cadastrar-lancamentos" element={<Lancamentos />} />                    
                     <Route path="*" element={<Navigate to="/login"/>}></Route>
                 </Routes>
             </BrowserRouter>

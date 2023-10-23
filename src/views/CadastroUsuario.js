@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
-import Card from "../coponents/Card";
-import FormGroup from '../coponents/FormGroup'
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import Card from "../coponents/Card";
+import FormGroup from '../coponents/FormGroup';
+import LocalStorageService from "../main/app/service/LocalStorageService";
+import UsuarioService from "../main/app/service/UsuarioService";
+import { mensagemSucesso, mensagemErro, mensagemAlert } from "../coponents/toastr";
 
 function CadastroUsuario() {
 
@@ -11,43 +13,61 @@ function CadastroUsuario() {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const [senhaConfirmacao, setSenhaConfirmacao] = useState('');
-    const [autenticar, setAutenticar] = useState(null);
-    const [alert, setAlert] = useState('');       
+    const [senhaConfirmacao, setSenhaConfirmacao] = useState('');     
+    const service = new UsuarioService();    
 
     const mudarPagina = () => {
         navigate('/login')
+    }    
+
+    const validar = ()=>{       
+        const msg = [];
+        if(!nome){
+            msg.push("Adicione um nome");
+        }
+        
+        if(!email) {
+            msg.push("Campo de email obrigatorio");
+        } else if(!email.match(/^[a-z0-9]+@[a-z]+\.[a-z]/)){
+            msg.push("Digite um email valido");
+        }
+
+        if(!senha || !senhaConfirmacao) {
+            msg.push("Deve digitar a senha duas vezes");
+        } else if(senha !== senhaConfirmacao){
+            msg.push("As senhas não coecidem");
+        }
+
+        return msg;
     }
 
-    const salvar = () => {
-        if (senha !== senhaConfirmacao) {
-            setAlert("alert alert-dismissible alert-danger");
-            setAutenticar("A Senha não corresponde")   
-        }            
-        
-        axios.post('http://localhost:8080/api/usuarios', {
+    const salvar = () => {        
+
+        if (validar() && validar().length > 0 ) {
+            validar().forEach((msg, index) =>{
+                mensagemAlert(msg);
+            });
+            return false;
+        }
+
+        service.salvarUsuario({
             nome: nome,
             email: email,
             senha: senha
         }).then(response => {
-            localStorage.setItem('usuario', JSON.stringify(response.data));
+            mensagemSucesso("Usuario cadastrado com sucesso");
+            LocalStorageService.buscarItem('usuario', response.data);
             navigate('/home');
-        }).catch(erro =>{            
-            console.log(erro.response)            
+        }).catch(erro => {
+            mensagemErro(erro.response.data.message);
+            
         })
-
-        //controller.abort();
     }
 
     return (
         <div className="container">
             <Card title="CADASTRO USUARIO">
-                <div className="row">
-                    <div className="row">
-                        <div className={alert}>
-                            <span aria-hidden="true">{autenticar}</span>
-                        </div>
-                    </div>
+                <div className="row">                   
                     <div className="col-lg-12">
                         <div className="bs-component">
                             <FormGroup label="Nome: *" htmlFor="inputNome">

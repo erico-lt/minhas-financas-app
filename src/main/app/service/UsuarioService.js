@@ -1,6 +1,6 @@
-import apiService from "../ApiService";
+import ApiService from "../ApiService"
 
-class UsuarioService extends apiService {
+class UsuarioService extends ApiService {
     
     constructor(){
         super('api/usuarios');
@@ -12,8 +12,13 @@ class UsuarioService extends apiService {
     }
 
     saldo(url) {        
-        return this.get(url)
+        return this.get(`/${url}/saldo`);
     }
+
+    salvarUsuario(corpo) {
+        return this.post('',corpo);
+    }
+    
 }
 
 export default UsuarioService;
