@@ -6,7 +6,7 @@ import { NavBar } from "../coponents/NavBar";
 import CadastroUsuario from "../views/CadastroUsuario";
 import { Home } from "../views/Home";
 import Login from "../views/Login";
-import Lancamentos from "../views/Lancamentos";
+import Lancamentos from "../views/LancamentosView";
 
 export function Rotas() {
     return (

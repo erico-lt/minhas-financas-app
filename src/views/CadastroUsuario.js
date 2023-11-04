@@ -41,7 +41,7 @@ function CadastroUsuario() {
         return msg;
     }
 
-    const salvar = () => {        
+    const cadastrarUsuario = () => {        
 
         if (validar() && validar().length > 0 ) {
             validar().forEach((msg, index) =>{
@@ -88,7 +88,7 @@ function CadastroUsuario() {
                             </FormGroup>
 
                             <div className="mt-2">
-                                <button type="button" onClick={salvar} className="btn btn-success">Salvar</button>
+                                <button type="button" onClick={cadastrarUsuario} className="btn btn-success">Salvar</button>
                                 <button type="button" onClick={mudarPagina} className="btn btn-danger ">Voltar</button>
                             </div>
                         </div>
