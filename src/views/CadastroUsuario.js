@@ -56,7 +56,7 @@ function CadastroUsuario() {
             senha: senha
         }).then(response => {
             mensagemSucesso("Usuario cadastrado com sucesso");
-            LocalStorageService.buscarItem('usuario', response.data);
+            LocalStorageService.adicionarItem('usuario', response.data);
             navigate('/home');
         }).catch(erro => {
             mensagemErro(erro.response.data.message);

@@ -4,7 +4,6 @@ import Card from "../coponents/Card";
 import FormGroup from "../coponents/FormGroup";
 import { useNavigate } from "react-router-dom";
 import UsuarioService from "../main/app/service/UsuarioService";
-import localStorageService from "../main/app/service/LocalStorageService";
 import { mensagemErro, mensagemSucesso } from "../coponents/toastr";
 
 function Login() {  
@@ -19,8 +18,7 @@ function Login() {
             email:email,
             senha:senha
         }).then(response => { 
-            mensagemSucesso("Login efetuado com sucesso")         
-            localStorageService.adicionarItem(response.data);
+            mensagemSucesso("Login efetuado com sucesso")              
             navigate('/home');            
         }).catch(erro => {            
             mensagemErro(erro.response.data.message);

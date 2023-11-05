@@ -1,7 +1,7 @@
 export default function LancamentoMenu(props) {
 
     const corpo = props.lancamento.map(lanca => {
-        return (
+        return (            
             <tr key={lanca.id}>
                 <td>{lanca.descricao}</td>
                 <td>{lanca.valor}</td>

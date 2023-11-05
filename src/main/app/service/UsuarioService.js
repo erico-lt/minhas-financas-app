@@ -6,8 +6,7 @@ class UsuarioService extends ApiService {
         super('api/usuarios');
     }
 
-    autenticar(corpo){        
-        console.log(corpo)
+    autenticar(corpo){                
         return this.post('/autenticar',corpo);                
     }
 

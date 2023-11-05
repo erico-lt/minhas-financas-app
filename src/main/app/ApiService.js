@@ -31,5 +31,5 @@ export default class ApiService {
     get(url){
         const request = `${this.apiUrl}${url}`;
         return httpClient.get(request);
-    }   
+    }      
 }

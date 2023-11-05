@@ -4,7 +4,7 @@ function SelectMenu(props) {
 
     const options = props.lista.map( (option, index) => {
         return (
-            <option value={option.value}>{option.label}</option>
+            <option key={index} value={option.value}>{option.label}</option>
         )
     });
 

@@ -23,7 +23,7 @@ export function Home() {
     return (
         <div className="container">
             <Card title="Bem Vindo!">
-                <p className="lead">Esse é seu sistema de ficnanças</p>
+                <p className="lead">Esse é seu sistema de finanças</p>
                 <p className="lead">Seu saldo para o mês atual é de: {saldo}</p>
                 <hr className="my-4" />
                 <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>
