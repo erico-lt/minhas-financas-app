@@ -18,7 +18,7 @@ export function NavBar() {
                             <span className="visually-hidden">(current)</span>
                         </NavBarItem>
 
-                        <NavBarItem to="/cadastro-usuarios" className="nav-link" label="Usuarios"/>                                   
+                        <NavBarItem to="/cadastro-usuarios" className="nav-link" label="Cadastrar Usuario"/>                                   
 
                         <NavBarItem to="/cadastrar-lancamentos" className="nav-link" label="Lancamentos"/>                       
 

@@ -4,19 +4,19 @@ import { useEffect } from "react";
 import Card from "../coponents/Card";
 import UsuarioService from "../main/app/service/UsuarioService";
 import localStorageService from "../main/app/service/LocalStorageService";
+import * as messagens from "../coponents/toastr"
 
 export function Home() {    
     const [saldo, setSaldo] = useState(0);
     const service = new UsuarioService();
 
     useEffect(() =>{
-        const usuarioString = localStorageService.buscarItem('usuario')
-        const usuario = JSON.parse(usuarioString);        
+        const usuario = localStorageService.buscarItem('usuario')          
         service.saldo(usuario.id
         ).then(response => {
             setSaldo(response.data);
         }).catch(erro => {
-            console.log(erro.response);
+            messagens.mensagemErro(erro.response);
         })
     })
 
@@ -24,7 +24,7 @@ export function Home() {
         <div className="container">
             <Card title="Bem Vindo!">
                 <p className="lead">Esse é seu sistema de finanças</p>
-                <p className="lead">Seu saldo para o mês atual é de: {saldo}</p>
+                <p className="lead">Seu saldo para o mês atual é de: {new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(saldo)}</p>
                 <hr className="my-4" />
                 <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>
 
