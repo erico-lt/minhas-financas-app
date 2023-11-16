@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import Card from "../coponents/Card";
 import UsuarioService from "../main/app/service/UsuarioService";
 import localStorageService from "../main/app/service/LocalStorageService";
-import * as messagens from "../coponents/toastr"
 
 export function Home() {    
     const [saldo, setSaldo] = useState(0);
@@ -16,7 +15,7 @@ export function Home() {
         ).then(response => {
             setSaldo(response.data);
         }).catch(erro => {
-            messagens.mensagemErro(erro.response);
+            setSaldo(saldo);
         })
     })
 
@@ -33,7 +32,7 @@ export function Home() {
                         <i className="bi bi-person-up"></i>
                         <span className="ms-1">Cadastrar Usuário</span>
                     </a>
-                    <a className="btn btn-danger btn-lg" href="https://bootswatch.com/flatly/#" role="button">
+                    <a className="btn btn-danger btn-lg" href="/cadastrar-lancamentos" role="button">
                         <i className="bi bi-file-earmark-plus-fill"></i>
                         <span className="ms-1">Cadastrar Lançamento</span>
                     </a>

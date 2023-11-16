@@ -1,21 +1,26 @@
 import { useState } from "react";
+import {Button} from "primereact/button"
+import {Dialog} from "primereact/dialog"
+
 import Card from "../coponents/Card";
 import FormGroup from "../coponents/FormGroup";
 import SelectMenu from "../coponents/SelectMenu";
-import LancamentoService from "../main/app/service/LancamentoService";
-import LancamentoMenu from "./lancamento/LacamentoMenu";
-import localStorageService from "../main/app/service/LocalStorageService";
 import * as menssagens from "../coponents/toastr";
+import LancamentoService from "../main/app/service/LancamentoService";
+import localStorageService from "../main/app/service/LocalStorageService";
+import LancamentoMenu from "./lancamento/LacamentoMenu";
 
 function LancamentosView() {
     const [ano, setAno] = useState('');
     const [mes, setMes] = useState('');
     const [tipo, setTipo] = useState('');
     const [descricao, setDescricao] = useState('');
-    const service = new LancamentoService();
     const [lancamentos, setArray] = useState([]);
+    const [statusDialog, setStatusDialog] = useState(false);
+    const service = new LancamentoService();
     const meses = service.obterMeses();
-    const tipos = service.obterTipos();
+    const tipos = service.obterTipos();    
+    const [idAux, setIdAux] = useState();
 
     const buscarItems = () => {
         const usuario = localStorageService.buscarItem('usuario');
@@ -39,35 +44,54 @@ function LancamentosView() {
         }).catch(erro => {
             console.log(erro.response)
         })
-    }    
+    }
 
-    const deletar = (id) => {
+    const confirmarDelecao = (id) => {
+        setStatusDialog(true);
+        setIdAux(id);       
+    }
+
+    const cancelarDelecao = () => {
+        setStatusDialog(false);
+        setIdAux(null);
+    }
+
+    const deletar = () => {
         const usuario = localStorageService.buscarItem('usuario');
-        
+
         service.deletarLancamento(
-            id    
-        ).then(response => {                
-            
-            const lancamentoFiltro = {                
+            idAux
+        ).then(response => {
+            setStatusDialog(false);
+            const lancamentoFiltro = {
                 id: usuario.id,
                 ano: ano,
                 mes: mes,
                 tipo: tipo,
                 descricao: descricao
             }
+
             service.buscar(
                 lancamentoFiltro
-            ).then(respnse => {                
-                setArray(respnse.data);
-                menssagens.mensagemSucesso("Lancamento Deletado com sucesso");                   
+            ).then(respnse => {
+                setArray(respnse.data)
+                menssagens.mensagemSucesso("Lancamento Deletado com sucesso");
             });
+
         }).catch(erro => {
             menssagens.mensagemAlert("Problema ao deletar o item");
-        });        
+        });
     }
-        
+
+    const footerContent = (
+        <div>            
+            <Button label="Confirmar" icon="pi pi-times" onClick={() => deletar()} className="p-button-text" />
+            <Button label="Cancelar" icon="pi pi-check"  onClick={() => cancelarDelecao()} autoFocus />
+        </div>
+    );
+
     return (
-        <>
+        <>          
             <div className="container">
                 <Card title="Buscar Lancamentos">
                     <div className="row">
@@ -84,10 +108,7 @@ function LancamentosView() {
                                 </FormGroup>
 
                                 <FormGroup htmlFor="exampleSelect1" label="Mês: *">
-
                                     <SelectMenu className="form-control" lista={meses} id="exampleSelect1" onChange={(event) => setMes(event.target.value)} />
-
-
                                 </FormGroup>
 
                                 <FormGroup htmlFor="inputTipo" label="Tipo de Lancamento:">
@@ -114,10 +135,16 @@ function LancamentosView() {
                         <h1 id="tables">Lançamentos</h1>
                     </div>
                     <div className="bs-component">
-                        <LancamentoMenu lancamento={lancamentos} deletarLancamento={deletar} className="table table-hover" />
+                        <LancamentoMenu lancamento={lancamentos} deletarLancamento={confirmarDelecao} className="table table-hover" />
                     </div>
                 </div>
             </div>
+
+            <Dialog header="Escolhas" modal={true} visible={statusDialog} style={{ width: '35vw' }} onHide={() => setStatusDialog(false)} footer={footerContent}>
+                <p className="m-0">
+                    Deseja excluir este Lançamento?
+                </p>
+            </Dialog>
         </>
     );
 }

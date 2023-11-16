@@ -8,7 +8,7 @@ export function NavBar() {
         <nav className="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark" style={{ fontSize: '20px' }}>
             <div className="container-fluid">
                 <a className="navbar-brand" href="/" style={{ fontWeight: 'bolder' }}>Minhas Financas</a>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navegacao" arial-controls="navegacao" aria-expanded="false" aria-label="Toggle navigation">
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navegacao" arial-controls="navegacao" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
@@ -20,7 +20,7 @@ export function NavBar() {
 
                         <NavBarItem to="/cadastro-usuarios" className="nav-link" label="Cadastrar Usuario"/>                                   
 
-                        <NavBarItem to="/cadastrar-lancamentos" className="nav-link" label="Lancamentos"/>                       
+                        <NavBarItem to="/buscar-lancamentos" className="nav-link" label="Lancamentos"/>                       
 
                         <NavBarItem to="/login" className="nav-link" label="Login"/>                                                                      
                     </ul>

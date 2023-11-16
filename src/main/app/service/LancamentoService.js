@@ -32,6 +32,14 @@ export default class LancamentoService extends ApiService {
         ]
     }
 
+    obterTiposSalvarLancamento() {
+        return [
+            { label: 'SELECIONE...', value: '' },
+            { label: 'Receita', value: 0},
+            { label: 'Despesa', value: 0},
+        ]
+    }
+
     buscar(lancamentoFiltro) {        
         let params = `?id_usuario=${lancamentoFiltro.id}`;
 
@@ -57,5 +65,9 @@ export default class LancamentoService extends ApiService {
     deletarLancamento(url){
         
         return this.delete(`/${url}`);
+    }
+
+    salvarLancamento(corpo) {
+        return this.post('',corpo);
     }
 }
