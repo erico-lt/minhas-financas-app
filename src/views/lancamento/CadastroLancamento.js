@@ -22,9 +22,44 @@ export default function CadastroLancamento() {
     const mudarPagina = () => {
         navigate('/home')
     }
-   
+
+    const validar = () => {
+        const msg = [];
+
+        if (!descricao) {
+            msg.push("Adicione uma descrição ao lancamento");
+        }
+
+        if (!mes) {
+            msg.push("Campo mês vazio");
+        }
+
+        if (!ano) {
+            msg.push("O ano de cadastro não pode ser vazio");
+        }
+
+        if (valor <= 0) {
+            msg.push("O valor não pode ser menor ou igual a 0");
+        }
+
+        if (!tipo) {
+            msg.push("Campo tipo vazio");
+        }
+
+        return msg;
+    }
+
     const salvarLancamento = () => {
         const usuario = localStorageService.buscarItem('usuario')
+
+        if(validar() && validar().length > 0) {
+
+            validar().forEach((element) =>{
+                mensagens.mensagemAlert(element);
+            });
+
+            return false;
+        }           
 
         const lancamentoSalar = {
             descricao: descricao,
@@ -37,12 +72,12 @@ export default function CadastroLancamento() {
 
         service.salvarLancamento(
             lancamentoSalar
-        ).then( response => {
+        ).then(response => {
             mensagens.mensagemSucesso("Lancamento cadastrado com sucesso");
         }).catch(erro => {
             mensagens.mensagemErro("Erro ao cadastrar Lancamento");
         })
-        
+
     }
 
     return (
@@ -55,23 +90,23 @@ export default function CadastroLancamento() {
                                 <FormGroup htmlFor="inputDescricao>" label="Descrição: *">
                                     <input type="text" onChange={(event) => setDescricao(event.target.value)} className="form-control" id="inputDescricao" placeholder="Descrição"></input>
                                 </FormGroup>
-                                
+
                                 <FormGroup htmlFor="inputMes>" label="Mês: *">
                                     <SelectMenu onChange={(event) => setMes(event.target.value)} className="form-control" id="inputMes" lista={meses}></SelectMenu>
                                 </FormGroup>
 
                                 <FormGroup htmlFor="inputAno" label="Ano: *">
                                     <input type="number" onChange={(event) => setAno(event.target.value)} className="form-control" id="inputAno" placeholder="Ano"></input>
-                                </FormGroup>                                
+                                </FormGroup>
 
                                 <FormGroup htmlFor="inputValor" label="Valor: *">
-                                    <input type="number" onChange={(event) => setValor(event.target.value)}  className="form-control" id="inputValor" placeholder="Valor"></input>
+                                    <input type="number" onChange={(event) => setValor(event.target.value)} className="form-control" id="inputValor" placeholder="Valor"></input>
                                 </FormGroup>
-                              
+
                                 <FormGroup htmlFor="inputTipo" label="Tipo: *">
-                                    <SelectMenu lista={tipos} onChange={(event) => setTipo(event.target.value)}  className="form-control" id="inputTipo" placeholder="Valor"></SelectMenu>
+                                    <SelectMenu lista={tipos} onChange={(event) => setTipo(event.target.value)} className="form-control" id="inputTipo" placeholder="Valor"></SelectMenu>
                                 </FormGroup>
-                                
+
                             </div>
 
                             <div className="btn-group">
