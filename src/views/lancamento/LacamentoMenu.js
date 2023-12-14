@@ -10,8 +10,8 @@ export default function LancamentoMenu(props) {
                 <td>{lanca.mes}</td>
                 <td>{lanca.status}</td>
                 <td>
-                    <button className="btn btn-primary">Edita</button>
-                    <button onClick={evento => props.deletarLancamento(lanca.id)} className="btn btn-danger">Deletar</button>
+                    <button className="btn btn-primary" onClick={evento => props.editarItem(lanca.id)} >Edita</button>
+                    <button className="btn btn-danger" onClick={evento => props.deletarLancamento(lanca.id)} >Deletar</button>
                 </td>
             </tr>
         )

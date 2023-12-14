@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Card from "../../coponents/Card";
 import FormGroup from "../../coponents/FormGroup";
 import SelectMenu from "../../coponents/SelectMenu";
 import LancamentoService from "../../main/app/service/LancamentoService";
-import { useNavigate } from "react-router-dom";
 import localStorageService from "../../main/app/service/LocalStorageService";
 import * as mensagens from '../../coponents/toastr'
 
@@ -17,7 +17,12 @@ export default function CadastroLancamento() {
     const [ano, setAno] = useState('');
     const [valor, setValor] = useState('');
     const [tipo, setTipo] = useState('');
+    const {id} = useParams();
     const navigate = useNavigate();
+
+    useEffect(() => {        
+        console.log("editando", id);
+    })
 
     const mudarPagina = () => {
         navigate('/home')

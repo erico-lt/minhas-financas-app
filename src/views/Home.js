@@ -32,7 +32,7 @@ export function Home() {
                         <i className="bi bi-person-up"></i>
                         <span className="ms-1">Cadastrar Usuário</span>
                     </a>
-                    <a className="btn btn-danger btn-lg" href="/cadastrar-lancamentos" role="button">
+                    <a className="btn btn-danger btn-lg" href="/cadastrar-lancamentos/" role="button">
                         <i className="bi bi-file-earmark-plus-fill"></i>
                         <span className="ms-1">Cadastrar Lançamento</span>
                     </a>

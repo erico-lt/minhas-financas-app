@@ -9,6 +9,7 @@ import * as menssagens from "../coponents/toastr";
 import LancamentoService from "../main/app/service/LancamentoService";
 import localStorageService from "../main/app/service/LocalStorageService";
 import LancamentoMenu from "./lancamento/LacamentoMenu";
+import { useNavigate } from "react-router-dom";
 
 function LancamentosView() {
     const [ano, setAno] = useState('');
@@ -21,6 +22,7 @@ function LancamentosView() {
     const meses = service.obterMeses();
     const tipos = service.obterTipos();    
     const [idAux, setIdAux] = useState();
+    const navigate = useNavigate();
 
     const buscarItems = () => {
         const usuario = localStorageService.buscarItem('usuario');
@@ -44,6 +46,10 @@ function LancamentosView() {
         }).catch(erro => {
             console.log(erro.response)
         })
+    }
+
+    const confirmarEdicaoItem = (id) => {        
+        navigate(`/cadastrar-lancamentos/${id}`);        
     }
 
     const confirmarDelecao = (id) => {
@@ -119,7 +125,7 @@ function LancamentosView() {
 
                                 <div className="gtn-group mt-2">
                                     <button onClick={buscarItems} className="btn btn-sm btn-success">Buscar</button>
-                                    <button className="btn btn-sm btn-danger">Cadastrar</button>
+                                    <button className="btn btn-sm btn-danger" onClick={() => {navigate('/cadastrar-lancamentos/ ')}}>Cadastrar</button>
                                 </div>
 
                             </div>
@@ -135,7 +141,7 @@ function LancamentosView() {
                         <h1 id="tables">Lançamentos</h1>
                     </div>
                     <div className="bs-component">
-                        <LancamentoMenu lancamento={lancamentos} deletarLancamento={confirmarDelecao} className="table table-hover" />
+                        <LancamentoMenu lancamento={lancamentos} deletarLancamento={confirmarDelecao} editarItem = {confirmarEdicaoItem} className="table table-hover" />
                     </div>
                 </div>
             </div>
