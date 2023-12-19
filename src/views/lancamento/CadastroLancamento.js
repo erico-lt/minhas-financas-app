@@ -6,10 +6,13 @@ import SelectMenu from "../../coponents/SelectMenu";
 import LancamentoService from "../../main/app/service/LancamentoService";
 import localStorageService from "../../main/app/service/LocalStorageService";
 import * as mensagens from '../../coponents/toastr'
+import { useMemo } from "react";
 
 
 export default function CadastroLancamento() {
-    const service = new LancamentoService();
+    const service = useMemo(() => {
+        return new LancamentoService();
+    },[]); 
     const meses = service.obterMeses();
     const tipos = service.obterTiposSalvarLancamento();
     const [descricao, setDescricao] = useState('');
@@ -18,11 +21,45 @@ export default function CadastroLancamento() {
     const [valor, setValor] = useState('');
     const [tipo, setTipo] = useState('');
     const {id} = useParams();
-    const navigate = useNavigate();
+    const navigate = useNavigate();   
 
     useEffect(() => {        
-        console.log("editando", id);
-    })
+        
+
+        if(id) {
+            
+            service.buscarPorId(id)
+            .then(response => {               
+                setDescricao(response.data.descricao);
+                setMes(response.data.mes);
+                setAno(response.data.ano);
+                setValor(response.data.valor);
+                setTipo(response.data.tipo);                                                  
+            }).catch(erro => {
+                console.log(erro.response.data);
+            })
+        }
+    }, [id, service]);
+
+    const atualizarLancamentos = () => {
+        const usuario = localStorageService.buscarItem('usuario')
+        const lancamento ={
+            id,
+            descricao,
+            mes,
+            ano,
+            valor,
+            tipo,
+            usuario: usuario.id
+        };  
+        service.atualizarLancamento(lancamento)
+        .then(response => {
+            navigate("/buscar-lancamentos");
+            mensagens.mensagemSucesso("Lancamento atualizado com sucesso!")            
+        }).catch(erro => {
+            mensagens.mensagemErro("Erro ao atualizar lancamento");
+        });
+    }
 
     const mudarPagina = () => {
         navigate('/home')
@@ -93,29 +130,30 @@ export default function CadastroLancamento() {
                         <div className="col-lg-6">
                             <div className="bs-componente">
                                 <FormGroup htmlFor="inputDescricao>" label="Descrição: *">
-                                    <input type="text" onChange={(event) => setDescricao(event.target.value)} className="form-control" id="inputDescricao" placeholder="Descrição"></input>
+                                    <input type="text" value={descricao} onChange={(event) => setDescricao(event.target.value)} className="form-control" id="inputDescricao" placeholder="Descrição"></input>
                                 </FormGroup>
 
                                 <FormGroup htmlFor="inputMes>" label="Mês: *">
-                                    <SelectMenu onChange={(event) => setMes(event.target.value)} className="form-control" id="inputMes" lista={meses}></SelectMenu>
+                                    <SelectMenu value ={mes} onChange={(event) => setMes(event.target.value)} className="form-control" id="inputMes" lista={meses}></SelectMenu>
                                 </FormGroup>
 
                                 <FormGroup htmlFor="inputAno" label="Ano: *">
-                                    <input type="number" onChange={(event) => setAno(event.target.value)} className="form-control" id="inputAno" placeholder="Ano"></input>
+                                    <input type="number" value={ano} onChange={(event) => setAno(event.target.value)} className="form-control" id="inputAno" placeholder="Ano"></input>
                                 </FormGroup>
 
                                 <FormGroup htmlFor="inputValor" label="Valor: *">
-                                    <input type="number" onChange={(event) => setValor(event.target.value)} className="form-control" id="inputValor" placeholder="Valor"></input>
+                                    <input type="number" value={valor} onChange={(event) => setValor(event.target.value)} className="form-control" id="inputValor" placeholder="Valor"></input>
                                 </FormGroup>
 
                                 <FormGroup htmlFor="inputTipo" label="Tipo: *">
-                                    <SelectMenu lista={tipos} onChange={(event) => setTipo(event.target.value)} className="form-control" id="inputTipo" placeholder="Valor"></SelectMenu>
+                                    <SelectMenu lista={tipos} value={tipo} onChange={(event) => setTipo(event.target.value)} className="form-control" id="inputTipo" placeholder="Valor"></SelectMenu>
                                 </FormGroup>
 
                             </div>
 
                             <div className="btn-group">
                                 <button onClick={salvarLancamento} className="btn btn-lg btn-success">Salvar</button>
+                                <button onClick={atualizarLancamentos} className="btn btn-lg btn-primary">Atualizar</button>
                                 <button onClick={mudarPagina} className="btn btn-lg btn-danger">Cancelar</button>
                             </div>
                         </div>

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
 import Card from "../coponents/Card";
 import FormGroup from "../coponents/FormGroup";
-import { useNavigate } from "react-router-dom";
-import UsuarioService from "../main/app/service/UsuarioService";
 import { mensagemErro, mensagemSucesso } from "../coponents/toastr";
+import UsuarioService from "../main/app/service/UsuarioService";
+import LocalStorageService from "../main/app/service/LocalStorageService";
 
 function Login() {  
 
@@ -18,6 +19,7 @@ function Login() {
             email:email,
             senha:senha
         }).then(response => { 
+            LocalStorageService.adicionarItem('usuario', response.data);
             mensagemSucesso("Login efetuado com sucesso")              
             navigate('/home');            
         }).catch(erro => {            

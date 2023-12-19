@@ -3,7 +3,7 @@ import ApiService from "../ApiService";
 export default class LancamentoService extends ApiService {
 
     constructor() {
-        super('/api/lancamentos');
+        super('/api/lancamentos/');
     }
 
     obterMeses() {
@@ -69,5 +69,13 @@ export default class LancamentoService extends ApiService {
 
     salvarLancamento(corpo) {
         return this.post('',corpo);
+    }
+
+    buscarPorId(id) {
+        return this.get(id);
+    }
+
+    atualizarLancamento(corpo) {
+        return this.put(corpo.id, corpo);
     }
 }

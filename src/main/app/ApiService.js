@@ -23,8 +23,8 @@ export default class ApiService {
         return httpClient.delete(request);
     }
 
-    put(url, corpo) {
-        const request = `${this.apiUrl}${url}`;
+    put(id, corpo) {
+        const request = `${this.apiUrl}${id}`;
         return httpClient.put(request, corpo);
     }
 

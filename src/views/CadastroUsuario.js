@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../coponents/Card";
 import FormGroup from '../coponents/FormGroup';
-import LocalStorageService from "../main/app/service/LocalStorageService";
 import UsuarioService from "../main/app/service/UsuarioService";
 import { mensagemSucesso, mensagemErro, mensagemAlert } from "../coponents/toastr";
 
@@ -55,9 +54,8 @@ function CadastroUsuario() {
             email: email,
             senha: senha
         }).then(response => {
-            mensagemSucesso("Usuario cadastrado com sucesso");
-            LocalStorageService.adicionarItem('usuario', response.data);
-            navigate('/home');
+            mensagemSucesso("Usuario cadastrado com sucesso");            
+            navigate('/login');
         }).catch(erro => {
             mensagemErro(erro.response.data.message);
             
