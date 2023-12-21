@@ -24,19 +24,20 @@ export default class LancamentoService extends ApiService {
         ]
     }
 
-    obterTipos() {
+    obterStatus() {
         return [
             { label: 'SELECIONE...', value: '' },
-            { label: 'Receita', value: 'RECEITA' },
-            { label: 'Despesa', value: 'DESPESA' },
+            { label: 'Pendente', value: 0 },
+            { label: 'Cancelado', value: 1 },
+            { label: 'Efetivado', value: 2 },
         ]
     }
 
     obterTiposSalvarLancamento() {
         return [
             { label: 'SELECIONE...', value: '' },
-            { label: 'Receita', value: 0},
-            { label: 'Despesa', value: 0},
+            { label: 'Receita', value: 0 },
+            { label: 'Despesa', value: 1 },
         ]
     }
 

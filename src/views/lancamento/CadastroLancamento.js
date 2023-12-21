@@ -15,11 +15,13 @@ export default function CadastroLancamento() {
     },[]); 
     const meses = service.obterMeses();
     const tipos = service.obterTiposSalvarLancamento();
+    const status = service.obterStatus();
     const [descricao, setDescricao] = useState('');
     const [mes, setMes] = useState('');
     const [ano, setAno] = useState('');
     const [valor, setValor] = useState('');
     const [tipo, setTipo] = useState('');
+    const [statu, setStatu] = useState('');
     const {id} = useParams();
     const navigate = useNavigate();   
 
@@ -29,14 +31,16 @@ export default function CadastroLancamento() {
         if(id) {
             
             service.buscarPorId(id)
-            .then(response => {               
+            .then(response => {    
+                 
                 setDescricao(response.data.descricao);
                 setMes(response.data.mes);
                 setAno(response.data.ano);
                 setValor(response.data.valor);
-                setTipo(response.data.tipo);                                                  
+                setTipo(response.data.tipo);                            
+                setStatu(response.data.status);                                                    
             }).catch(erro => {
-                console.log(erro.response.data);
+                mensagens.mensagemErro(erro.response.data);
             })
         }
     }, [id, service]);
@@ -134,7 +138,7 @@ export default function CadastroLancamento() {
                                 </FormGroup>
 
                                 <FormGroup htmlFor="inputMes>" label="Mês: *">
-                                    <SelectMenu value ={mes} onChange={(event) => setMes(event.target.value)} className="form-control" id="inputMes" lista={meses}></SelectMenu>
+                                    <SelectMenu value ={mes} lista={meses} onChange={(event) => setMes(event.target.value)} className="form-control" id="inputMes"></SelectMenu>
                                 </FormGroup>
 
                                 <FormGroup htmlFor="inputAno" label="Ano: *">
@@ -146,7 +150,11 @@ export default function CadastroLancamento() {
                                 </FormGroup>
 
                                 <FormGroup htmlFor="inputTipo" label="Tipo: *">
-                                    <SelectMenu lista={tipos} value={tipo} onChange={(event) => setTipo(event.target.value)} className="form-control" id="inputTipo" placeholder="Valor"></SelectMenu>
+                                    <SelectMenu lista={tipos} value={tipo} onChange={(event) => setTipo(event.target.value)} className="form-control" id="inputTipo"></SelectMenu>
+                                </FormGroup>
+                               
+                                <FormGroup htmlFor="inputStatus" label="Status: *">
+                                    <SelectMenu lista={status} disabled value={statu} className="form-control" id="inputStatus" placeholder="Status"/>
                                 </FormGroup>
 
                             </div>

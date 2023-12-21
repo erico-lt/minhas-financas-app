@@ -20,7 +20,7 @@ function LancamentosView() {
     const [statusDialog, setStatusDialog] = useState(false);
     const service = new LancamentoService();
     const meses = service.obterMeses();
-    const tipos = service.obterTipos();    
+    const tipos = service.obterTiposSalvarLancamento();    
     const [idAux, setIdAux] = useState();
     const navigate = useNavigate();
 
