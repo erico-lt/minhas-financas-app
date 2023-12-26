@@ -125,7 +125,7 @@ function LancamentosView() {
 
                                 <div className="gtn-group mt-2">
                                     <button onClick={buscarItems} className="btn btn-sm btn-success">Buscar</button>
-                                    <button className="btn btn-sm btn-danger" onClick={() => {navigate('/cadastrar-lancamentos/ ')}}>Cadastrar</button>
+                                    <button className="btn btn-sm btn-danger" onClick={() => {navigate('/cadastrar-lancamentos/')}}>Cadastrar</button>
                                 </div>
 
                             </div>

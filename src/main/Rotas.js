@@ -19,7 +19,7 @@ export function Rotas() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/cadastro-usuarios" element={<CadastroUsuario />} />
                     <Route path="/buscar-lancamentos" element={<LancamentosView />} />      
-                    <Route path="/cadastrar-lancamentos/:id" element={<CadastroLancamento />} />              
+                    <Route path="/cadastrar-lancamentos/:id?" element={<CadastroLancamento />} />              
                     <Route path="*" element={<Navigate to="/home"/>}></Route>
                 </Routes>
             </BrowserRouter>

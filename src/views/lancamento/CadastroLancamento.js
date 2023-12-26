@@ -24,21 +24,22 @@ export default function CadastroLancamento() {
     const [statu, setStatu] = useState('');
     const {id} = useParams();
     const navigate = useNavigate();   
+    const [atualizando, setAtualizando] = useState(false);
 
-    useEffect(() => {        
-        
+    useEffect(() => {              
 
-        if(id) {
+        if(id) {            
             
             service.buscarPorId(id)
-            .then(response => {    
-                 
+            .then(response => {   
+                setAtualizando(true);
                 setDescricao(response.data.descricao);
                 setMes(response.data.mes);
                 setAno(response.data.ano);
                 setValor(response.data.valor);
                 setTipo(response.data.tipo);                            
-                setStatu(response.data.status);                                                    
+                setStatu(response.data.status);      
+
             }).catch(erro => {
                 mensagens.mensagemErro(erro.response.data);
             })
@@ -129,7 +130,7 @@ export default function CadastroLancamento() {
     return (
         <>
             <div className="container">
-                <Card title="Cadastrar Lançamentos">
+                <Card title={atualizando ? "Atualizando Lançamento" : "Cadastro lançamento"}>
                     <div className="row">
                         <div className="col-lg-6">
                             <div className="bs-componente">
@@ -159,9 +160,12 @@ export default function CadastroLancamento() {
 
                             </div>
 
-                            <div className="btn-group">
-                                <button onClick={salvarLancamento} className="btn btn-lg btn-success">Salvar</button>
-                                <button onClick={atualizarLancamentos} className="btn btn-lg btn-primary">Atualizar</button>
+                            <div className="btn-group">    
+                            {atualizando ?                                    
+                                     <button onClick={atualizarLancamentos} className="btn btn-lg btn-success">Atualizar</button>
+                                    : 
+                                    <button onClick={salvarLancamento} className="btn btn-lg btn-success">Salvar</button>                                    
+                            }                                                                                  
                                 <button onClick={mudarPagina} className="btn btn-lg btn-danger">Cancelar</button>
                             </div>
                         </div>
