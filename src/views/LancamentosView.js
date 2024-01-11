@@ -22,7 +22,7 @@ function LancamentosView() {
     const meses = service.obterMeses();
     const tipos = service.obterTiposSalvarLancamento();    
     const [idAux, setIdAux] = useState();
-    const navigate = useNavigate();
+    const navigate = useNavigate();   
 
     const buscarItems = () => {
         const usuario = localStorageService.buscarItem('usuario');
@@ -48,20 +48,6 @@ function LancamentosView() {
         })
     }
 
-    const confirmarEdicaoItem = (id) => {        
-        navigate(`/cadastrar-lancamentos/${id}`);        
-    }
-
-    const confirmarDelecao = (id) => {
-        setStatusDialog(true);
-        setIdAux(id);       
-    }
-
-    const cancelarDelecao = () => {
-        setStatusDialog(false);
-        setIdAux(null);
-    }
-
     const deletar = () => {
         const usuario = localStorageService.buscarItem('usuario');
 
@@ -79,14 +65,46 @@ function LancamentosView() {
 
             service.buscar(
                 lancamentoFiltro
-            ).then(respnse => {
-                setArray(respnse.data)
+            ).then(response => {
+                setArray(response.data)
                 menssagens.mensagemSucesso("Lancamento Deletado com sucesso");
             });
 
         }).catch(erro => {
             menssagens.mensagemAlert("Problema ao deletar o item");
         });
+    }
+
+    const confirmarEdicaoItem = (id) => {        
+        navigate(`/cadastrar-lancamentos/${id}`);        
+    }
+
+    const confirmarDelecao = (id) => {
+        setStatusDialog(true);
+        setIdAux(id);       
+    }
+
+    const cancelarDelecao = () => {
+        setStatusDialog(false);
+        setIdAux(null);
+    }
+    
+    const atualizarStatus = (lanca, status) => {      
+
+        service.atualizarStatus(lanca.id, status)
+        .then(response => {
+           const newLancamentos = Array.from(lancamentos); 
+           const index = newLancamentos.indexOf(lanca);
+           if(index !== -1) {
+                lanca['status'] = status;
+               newLancamentos[index] = lanca; 
+            }
+            setArray(newLancamentos);
+            menssagens.mensagemSucesso("Status atualizado com sucesso!!")
+        }).catch(erro => {
+            menssagens.mensagemErro("Falha em atualizar status!");
+        });
+        
     }
 
     const footerContent = (
@@ -102,6 +120,7 @@ function LancamentosView() {
                 <Card title="Buscar Lancamentos">
                     <div className="row">
                         <div className="col-lg-6">
+
                             <div className="bs-component">
                                 <FormGroup htmlFor="inputMes" label="Ano: *">
                                     <input type="number" className="form-control" id="inputMes" onChange={(event) => setAno(event.target.value)}
@@ -124,11 +143,18 @@ function LancamentosView() {
                                 </FormGroup>
 
                                 <div className="gtn-group mt-2">
-                                    <button onClick={buscarItems} className="btn btn-sm btn-success">Buscar</button>
-                                    <button className="btn btn-sm btn-danger" onClick={() => {navigate('/cadastrar-lancamentos/')}}>Cadastrar</button>
+                                    <button onClick={buscarItems} className="btn btn-sm btn-success">
+                                        <i className="bi bi-search me-1"></i>
+                                        Buscar
+                                    </button>
+                                    <button className="btn btn-sm btn-danger" onClick={() => {navigate('/cadastrar-lancamentos/')}}>
+                                        <i className="bi bi-file-earmark-plus-fill me-1"></i>
+                                        Cadastrar
+                                    </button>
                                 </div>
 
                             </div>
+
                         </div>
                     </div>
                 </Card>
@@ -141,7 +167,8 @@ function LancamentosView() {
                         <h1 id="tables">Lançamentos</h1>
                     </div>
                     <div className="bs-component">
-                        <LancamentoMenu lancamento={lancamentos} deletarLancamento={confirmarDelecao} editarItem = {confirmarEdicaoItem} className="table table-hover" />
+                        <LancamentoMenu lancamento={lancamentos} deletarLancamento={confirmarDelecao} 
+                        editarItem = {confirmarEdicaoItem} atualizarStatus = {atualizarStatus} className="table table-hover" />
                     </div>
                 </div>
             </div>

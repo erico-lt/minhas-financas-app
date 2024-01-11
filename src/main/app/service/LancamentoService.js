@@ -1,9 +1,39 @@
 import ApiService from "../ApiService";
 
+import ErroValidacao from "../exceptions/ErroValidacao";
+
 export default class LancamentoService extends ApiService {
 
     constructor() {
         super('/api/lancamentos/');
+    }
+
+    validar (lancamento) {
+        const mensagens = [];
+
+        if (!lancamento.descricao) {
+            mensagens.push("Descricao vazia, adicione uma descrição");
+        }
+
+        if (!lancamento.mes) {
+            mensagens.push("Mes vazio, adicione um mes valido");
+        }
+
+        if (!lancamento.ano) {
+            mensagens.push("Ano vazio, adicione um ano ao lancamento");
+        }
+
+        if (!lancamento.valor) {
+            mensagens.push("Valor vazio, adicione um valor acima de 0");
+        }
+
+        if (!lancamento.tipo) {
+            mensagens.push("Tipo vazio, adicione um tipo valido");
+        }
+
+        if (mensagens && mensagens.length > 0) {
+            throw new ErroValidacao(mensagens);
+        }
     }
 
     obterMeses() {
@@ -65,7 +95,7 @@ export default class LancamentoService extends ApiService {
 
     deletarLancamento(url){
         
-        return this.delete(`/${url}`);
+        return this.delete(`${url}`);
     }
 
     salvarLancamento(corpo) {
@@ -78,5 +108,10 @@ export default class LancamentoService extends ApiService {
 
     atualizarLancamento(corpo) {
         return this.put(corpo.id, corpo);
+    }
+
+    atualizarStatus (id, status) {
+        const lancamentoDTO = {status: status}
+        return this.put(`${id}/atualizar-status`, lancamentoDTO);
     }
 }

@@ -19,31 +19,17 @@ function CadastroUsuario() {
         navigate('/login')
     }    
 
-    const validar = ()=>{       
-        const msg = [];
-        if(!nome){
-            msg.push("Adicione um nome");
-        }
-        
-        if(!email) {
-            msg.push("Campo de email obrigatorio");
-        } else if(!email.match(/^[a-z0-9]+@[a-z]+\.[a-z]/)){
-            msg.push("Digite um email valido");
-        }
-
-        if(!senha || !senhaConfirmacao) {
-            msg.push("Deve digitar a senha duas vezes");
-        } else if(senha !== senhaConfirmacao){
-            msg.push("As senhas não coecidem");
-        }
-
-        return msg;
-    }
-
     const cadastrarUsuario = () => {        
-
-        if (validar() && validar().length > 0 ) {
-            validar().forEach((msg, index) =>{
+        const usuarioValidar = {
+            nome,
+            email,
+            senha,
+            senhaConfirmacao
+        }
+        const validar = service.validar(usuarioValidar);
+        
+        if (validar && validar.length > 0 ) {
+            validar.forEach((msg, index) =>{
                 mensagemAlert(msg);
             });
             return false;

@@ -25,7 +25,11 @@ export default function CadastroLancamento() {
     const {id} = useParams();
     const navigate = useNavigate();   
     const [atualizando, setAtualizando] = useState(false);
-
+    
+    const mudarPagina = () => {
+        navigate('/home')
+    }  
+    
     useEffect(() => {              
 
         if(id) {            
@@ -66,49 +70,11 @@ export default function CadastroLancamento() {
         });
     }
 
-    const mudarPagina = () => {
-        navigate('/home')
-    }
-
-    const validar = () => {
-        const msg = [];
-
-        if (!descricao) {
-            msg.push("Adicione uma descrição ao lancamento");
-        }
-
-        if (!mes) {
-            msg.push("Campo mês vazio");
-        }
-
-        if (!ano) {
-            msg.push("O ano de cadastro não pode ser vazio");
-        }
-
-        if (valor <= 0) {
-            msg.push("O valor não pode ser menor ou igual a 0");
-        }
-
-        if (!tipo) {
-            msg.push("Campo tipo vazio");
-        }
-
-        return msg;
-    }
 
     const salvarLancamento = () => {
-        const usuario = localStorageService.buscarItem('usuario')
+        const usuario = localStorageService.buscarItem('usuario')               
 
-        if(validar() && validar().length > 0) {
-
-            validar().forEach((element) =>{
-                mensagens.mensagemAlert(element);
-            });
-
-            return false;
-        }           
-
-        const lancamentoSalar = {
+        const lancamento = {
             descricao: descricao,
             mes: mes,
             ano: ano,
@@ -117,10 +83,21 @@ export default function CadastroLancamento() {
             usuario: usuario.id
         }
 
+        try {
+            service.validar(lancamento);
+        } catch (error) {
+            const msgs = error.mensagens;
+
+            msgs.forEach(element => mensagens.mensagemErro(element));
+
+            return false;
+        }        
+
         service.salvarLancamento(
-            lancamentoSalar
+            lancamento
         ).then(response => {
             mensagens.mensagemSucesso("Lancamento cadastrado com sucesso");
+            navigate("/buscar-lancamentos");
         }).catch(erro => {
             mensagens.mensagemErro("Erro ao cadastrar Lancamento");
         })
